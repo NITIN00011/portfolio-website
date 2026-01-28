@@ -1,0 +1,791 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Professional Portfolio — Nitin Garhwal</title>
+    <meta name="description" content="Professional portfolio showcasing projects, skills and contact info." />
+    <style>
+        :root {
+            --bg: #0f1724;
+            --card: #0b1220;
+            --muted: #94a3b8;
+            --accent: #2563eb;
+            --text: #e6eef8;
+            --glass: rgba(255, 255, 255, 0.03);
+        }
+
+        [data-theme='light'] {
+            --bg: #f7fbff;
+            --card: #ffffff;
+            --muted: #475569;
+            --accent: #2563eb;
+            --text: #0b1220;
+            --glass: rgba(11, 18, 32, 0.03);
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            font-family: Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+            background: var(--bg);
+            color: var(--text);
+            -webkit-font-smoothing: antialiased
+        }
+
+        .avatar img {
+            width: 415px;
+            height: 415px;
+            border-radius: 2%;
+            /* makes it a circle */
+            object-fit: cover;
+            /* ensures image doesn’t stretch */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            /* optional shadow */
+        }
+
+        /* NAV */
+        nav {
+            position: fixed;
+            inset: 0 auto 0 0;
+            height: 72px;
+            left: 0;
+            right: 0;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent);
+            backdrop-filter: blur(6px);
+            display: flex;
+            align-items: center;
+            z-index: 80
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between
+        }
+
+        .brand {
+            display: flex;
+            gap: 12px;
+            align-items: center
+        }
+
+        .logo {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--accent), #7c3aed);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700
+        }
+
+        .logo span {
+            font-size: 18px
+        }
+
+        .brand h1 {
+            font-size: 16px;
+            margin: 0
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 14px;
+            align-items: center
+        }
+
+        .nav-links button {
+            background: none;
+            border: none;
+            color: var(--muted);
+            padding: 8px 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600
+        }
+
+        .nav-links button.active,
+        .nav-links button:hover {
+            color: var(--accent);
+            background: var(--glass)
+        }
+
+        .actions {
+            display: flex;
+            gap: 8px;
+            align-items: center
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 8px 14px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600
+        }
+
+        .btn.primary {
+            background: var(--accent);
+            color: white
+        }
+
+        .btn.ghost {
+            background: transparent;
+            color: var(--text);
+            border: 1px solid rgba(255, 255, 255, 0.06)
+        }
+
+        .menu-toggle {
+            display: none
+        }
+
+        /* HERO */
+        header.hero {
+            min-height: 80vh;
+            display: flex;
+            align-items: center
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1fr 420px;
+            gap: 36px;
+            align-items: center
+        }
+
+        .hero-eyebrow {
+            color: var(--accent);
+            font-weight: 700;
+            margin-bottom: 12px
+        }
+
+        .hero-title {
+            font-size: 34px;
+            line-height: 1.02;
+            margin: 0 0 18px
+        }
+
+        .hero-desc {
+            color: var(--muted);
+            margin-bottom: 20px
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 12px
+        }
+
+        .avatar {
+            width: 420px;
+            height: 420px;
+            border-radius: 18px;
+            background: url('https://via.placeholder.com/420') center/cover no-repeat;
+            border: 6px solid rgba(255, 255, 255, 0.03)
+        }
+
+        /* SECTIONS */
+        section {
+            padding: 100px 0
+        }
+
+        .section-head {
+            text-align: center;
+            margin-bottom: 28px
+        }
+
+        .section-head h2 {
+            font-size: 26px;
+            margin: 0
+        }
+
+        .section-head p {
+            color: var(--muted);
+            margin-top: 8px
+        }
+
+        /* SKILLS */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+            max-width: 900px;
+            margin: 20px auto
+        }
+
+        .skill {
+            background: var(--card);
+            padding: 14px;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(2, 6, 23, 0.6)
+        }
+
+        .skill h4 {
+            margin: 0 0 8px
+        }
+
+        .progress {
+            height: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            overflow: hidden
+        }
+
+        .progress>i {
+            display: block;
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent), #7c3aed);
+            width: 0%;
+            transition: width 1200ms ease
+        }
+
+        /* PROJECTS */
+        .projects-wrap {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 18px
+        }
+
+        .card {
+            background: var(--card);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(2, 6, 23, 0.6);
+            display: flex;
+            flex-direction: column
+        }
+
+        .card img {
+            width: 100%;
+            height: 180px;
+            object-fit: contain;
+            background: #000;
+        }
+
+
+        .card-body {
+            padding: 14px
+        }
+
+        .tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 10px
+        }
+
+        .tag {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 6px 8px;
+            border-radius: 8px;
+            font-size: 12px;
+            color: var(--muted)
+        }
+
+        /* STATS */
+        .stats {
+            display: flex;
+            gap: 18px;
+            justify-content: center;
+            margin-top: 10px
+        }
+
+        .stat {
+            background: var(--card);
+            padding: 12px;
+            border-radius: 10px;
+            text-align: center
+        }
+
+        .stat b {
+            display: block;
+            font-size: 20px
+        }
+
+        .stat small {
+            color: var(--muted)
+        }
+
+        /* CONTACT */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 420px;
+            gap: 18px;
+            max-width: 1100px;
+            margin: 0 auto
+        }
+
+        form.card {
+            padding: 18px
+        }
+
+        form .row {
+            display: flex;
+            gap: 12px
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            background: transparent;
+            color: var(--text)
+        }
+
+        textarea {
+            min-height: 140px
+        }
+
+        /* FOOTER */
+        footer {
+            padding: 40px 0;
+            color: var(--muted);
+            text-align: center
+        }
+
+        /* MODAL */
+        .modal {
+            position: fixed;
+            inset: 0;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            background: rgba(2, 6, 23, 0.6);
+            z-index: 200
+        }
+
+        .modal.show {
+            display: flex
+        }
+
+        .modal-card {
+            width: min(900px, 96%);
+            background: var(--card);
+            border-radius: 12px;
+            overflow: hidden
+        }
+
+        .modal-card .content {
+            display: flex;
+            gap: 12px
+        }
+
+        .modal-card img {
+            width: 40%;
+            height: 100%;
+            object-fit: cover
+        }
+
+        .modal-body {
+            padding: 18px
+        }
+
+        /* small screens */
+        @media(max-width:900px) {
+            .hero-grid {
+                grid-template-columns: 1fr
+            }
+
+            .avatar {
+                width: 100%;
+                height: 300px
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr
+            }
+
+            .skills-grid {
+                grid-template-columns: 1fr
+            }
+        }
+
+        @media(max-width:700px) {
+            .nav-links {
+                display: none
+            }
+
+            .menu-toggle {
+                display: block
+            }
+
+            .menu-panel {
+                position: fixed;
+                right: 16px;
+                top: 76px;
+                background: var(--card);
+                border-radius: 12px;
+                padding: 10px;
+                box-shadow: 0 8px 30px rgba(2, 6, 23, 0.6);
+                display: none
+            }
+
+            .menu-panel.show {
+                display: block
+            }
+        }
+
+        /* tiny helpers */
+        .flex {
+            display: flex
+        }
+
+        .center {
+            align-items: center
+        }
+
+        .space {
+            gap: 10px
+        }
+
+        .muted {
+            color: var(--muted)
+        }
+    </style>
+</head>
+
+<body data-theme="dark">
+    <nav>
+        <div class="container">
+            <div class="brand">
+                <div class="logo"><span>NG</span></div>
+                <div>
+                    <h1>Nitin Garhwal</h1>
+                    <div class="muted">BCA Student • Web Developer</div>
+                </div>
+            </div>
+
+            <div class="nav-links" role="navigation" aria-label="Main Navigation">
+                <button data-section="home" class="active">Home</button>
+                <button data-section="about">About</button>
+                <button data-section="skills">Skills</button>
+                <button data-section="projects">Projects</button>
+                <button data-section="contact">Contact</button>
+            </div>
+
+            <div class="actions">
+                <button class="btn ghost" id="themeToggle" aria-pressed="false">🌙</button>
+                <button class="btn primary" id="downloadResume">Download Resume</button>
+                <button class="menu-toggle btn ghost" id="openMenu">☰</button>
+            </div>
+
+        </div>
+        <div class="menu-panel" id="menuPanel">
+            <button data-section="home">Home</button>
+            <button data-section="about">About</button>
+            <button data-section="skills">Skills</button>
+            <button data-section="projects">Projects</button>
+            <button data-section="contact">Contact</button>
+        </div>
+    </nav>
+
+    <main>
+        <header id="home" class="hero">
+            <div class="container hero-grid">
+                <div>
+                    <div class="hero-eyebrow">Hello — I build useful things</div>
+                    <h2 class="hero-title">I'm <span style="color:var(--accent)">Nitin Garhwal</span>, a web developer &
+                        problem solver</h2>
+                    <p class="hero-desc">I craft fast, accessible, and beautiful web experiences. I love building
+                        projects that help people and businesses succeed.</p>
+                    <div class="hero-cta">
+                        <button class="btn primary" data-section="projects">View Projects</button>
+                        <button class="btn ghost" data-section="contact">Hire Me</button>
+                    </div>
+
+
+                </div>
+                <div style="display:flex;flex-direction:column;justify-content:center;align-items:center">
+                    <div class="avatar" id="avatar" alt="Portrait image">
+                        <img src="img/image.png" alt="Nitin Garhwal" width="420px" height="420px">
+                    </div>
+                    <div style="margin-top:12px;color:var(--muted);font-size:14px">Based in Bikaner, Rajasthan • Open to
+                        opportunities</div>
+                </div>
+            </div>
+        </header>
+
+        <section id="about">
+            <div class="section-head">
+                <h2>About Me</h2>
+                <p>Short intro about your education, interests, and what you bring to projects.</p>
+            </div>
+            <div class="container" style="max-width:900px">
+                <div class="card" style="padding:18px;background:transparent;border-radius:12px">
+                    <p class="muted">I'm a BCA 2nd Year student specialized in web development. I enjoy clean UI,
+                        writing robust code and learning new technologies. I work with HTML, CSS, JavaScript and C/C++
+                        for system-level problems.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="skills" style="background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent)">
+            <div class="section-head">
+                <h2>Skills</h2>
+                <p>Technologies and soft skills I use often</p>
+            </div>
+            <div class="skills-grid" id="skillsGrid"></div>
+        </section>
+
+        <section id="projects">
+            <div class="section-head">
+                <h2>Projects</h2>
+                <p>Selected projects — click to open details</p>
+            </div>
+            <div style="text-align:center;margin-bottom:12px">
+                <label class="muted">Filter:</label>
+                <select id="filterTag">
+                    <option value="all">All</option>
+                </select>
+            </div>
+            <div class="projects-wrap" id="projectsWrap"></div>
+        </section>
+
+        <section id="contact">
+            <div class="section-head">
+                <h2>Contact</h2>
+                <p>Let's get in touch — send a message or download my resume</p>
+            </div>
+            <div class="contact-grid">
+                <div>
+                    <div class="card" style="padding:18px">
+                        <h3 style="margin-top:0">Contact Info</h3>
+                        <p class="muted">Email: nitingarhwal184@gmail.com</p>
+                        <p class="muted">Location: Sikar, Rajasthan, India</p>
+
+                    </div>
+                </div>
+
+                <form id="contactForm" class="card" novalidate>
+                    <label>Name</label>
+                    <input name="name" required placeholder="Your name">
+                    <label>Email</label>
+                    <input name="email" type="email" required placeholder="your.email@example.com">
+                    <label>Message</label>
+                    <textarea name="message" required placeholder="How can I help?"></textarea>
+                    <div style="display:flex;gap:10px;margin-top:10px">
+                        <button class="btn primary" type="submit">Send Message</button>
+                        <button class="btn ghost" type="button" id="clearMessages">Clear Saved</button>
+                    </div>
+                    <p class="muted" id="formStatus" style="margin-top:10px"></p>
+                </form>
+            </div>
+        </section>
+
+    </main>
+
+    <footer style="background:#111; color:#fff; padding:2rem 1rem; text-align:center;">
+        <div class="container" style="max-width:1100px; margin:auto;">
+            <p style="margin-bottom:0.5rem;">
+                © <span id="year"></span> <strong>Nitin Garhwal</strong>. All rights reserved.
+            </p>
+            <p style="margin-bottom:1rem;">
+                Contact: <a href="mailto:nitingarhwal184@gmail.com"
+                    style="color:#60a5fa; text-decoration:none;">nitingarhwal184@gmail.com</a>
+            </p>
+            <div style="display:flex; justify-content:center; gap:1rem; margin-top:0.5rem;">
+                <a href=https://github.com/NITIN00011 target="_blank"
+                    style="color:#fff; text-decoration:none;">GitHub</a> |
+                <a href=https://www.linkedin.com/in/nitin-garhwal-b171b1329?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app
+                    target="_blank" style="color:#fff; text-decoration:none;">LinkedIn</a> |
+                <a href="https://instagram.com/nitin__garhwal" target="_blank"
+                    style="color:#fff; text-decoration:none;">Instagram</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Auto year update
+        document.getElementById("year").textContent = new Date().getFullYear();
+    </script>
+
+
+    <!-- Modal -->
+    <div class="modal" id="modal">
+        <div class="modal-card" role="dialog" aria-modal="true">
+            <div class="content">
+                <img id="modalImg" src="img/port.png" alt="project image">
+                <div class="modal-body">
+                    <h3 id="modalTitle">Project Title</h3>
+                    <p id="modalDesc" class="muted">Project description</p>
+                    <div id="modalTags" class="tags"></div>
+                    <div style="margin-top:12px">
+                        <a id="modalLive" href="#" class="btn primary" target="_blank">Live</a>
+                        <a id="modalRepo" href="#" class="btn ghost" target="_blank">Repo</a>
+                        <button class="btn ghost" id="closeModal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- Data (replace images with assets/your-image.jpg) ---
+        const PROJECTS = [
+            { id: 1, title: 'Responsive Portfolio Website', img: 'img/port.png', desc: 'A polished responsive portfolio built with HTML/CSS/JS.', tags: ['html', 'css', 'javascript'], live: '#', repo: '#' },
+
+            { id: 3, title: 'Weather app', img: 'img/weather.png', desc: 'Real time Weather App using JavaScript', tags: ['Html', 'Css', 'JavaScript'], live: 'https://nitin00011.github.io/weather-app/', repo: 'https://github.com/NITIN00011/weather-app.git' }
+        ];
+
+        const SKILLS = [
+            { name: 'HTML', level: 90 }, { name: 'CSS', level: 88 }, { name: 'JavaScript', level: 50 }, { name: 'C Programming', level: 60 }, { name: 'C++', level: 50 }, { name: 'Data Structures', level: 50 }, { name: 'Communication', level: 85 }
+        ];
+
+        // --- Helpers ---
+        const qs = s => document.querySelector(s);
+        const qsa = s => document.querySelectorAll(s);
+
+        // NAV + smooth scroll + active link
+        const navButtons = qsa('nav .nav-links button');
+        function setActive(section) {
+            navButtons.forEach(b => b.classList.toggle('active', b.dataset.section === section));
+            // also close mobile panel
+            menuPanel.classList.remove('show');
+        }
+        navButtons.forEach(btn => btn.addEventListener('click', () => { document.getElementById(btn.dataset.section).scrollIntoView({ behavior: 'smooth' }); setActive(btn.dataset.section) }));
+
+        // menu panel
+        const openMenu = qs('#openMenu');
+        const menuPanel = qs('#menuPanel');
+        menuPanel.querySelectorAll('button').forEach(b => b.addEventListener('click', () => { document.getElementById(b.dataset.section).scrollIntoView({ behavior: 'smooth' }); menuPanel.classList.remove('show') }));
+        openMenu.addEventListener('click', () => menuPanel.classList.toggle('show'));
+
+        // hero CTA
+        qsa('[data-section]').forEach(el => el.addEventListener('click', (e) => { const s = e.currentTarget.dataset.section; if (s) { document.getElementById(s).scrollIntoView({ behavior: 'smooth' }); setActive(s) } }));
+
+        // theme toggle
+        const themeToggle = qs('#themeToggle');
+        themeToggle.addEventListener('click', () => {
+            const root = document.documentElement;
+            const current = root.getAttribute('data-theme') || 'dark';
+            const next = current === 'dark' ? 'light' : 'dark';
+            root.setAttribute('data-theme', next);
+            themeToggle.textContent = next === 'dark' ? '🌙' : '☀️';
+        });
+
+        // year
+        qs('#year').textContent = new Date().getFullYear();
+
+        // render skills
+        const skillsGrid = qs('#skillsGrid');
+        SKILLS.forEach(s => {
+            const node = document.createElement('div'); node.className = 'skill';
+            node.innerHTML = `<h4>${s.name} <small style="float:right;color:var(--muted)">${s.level}%</small></h4><div class="progress"><i style="width:0%"></i></div>`;
+            skillsGrid.appendChild(node);
+        });
+
+        // animate skill bars when visible
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.querySelectorAll('.progress > i').forEach((bar, i) => {
+                        const level = SKILLS[i]?.level || 60; bar.style.width = level + '%';
+                    });
+                }
+            });
+        }, { threshold: 0.25 });
+        observer.observe(skillsGrid);
+
+        // render projects and populate filter
+        const projectsWrap = qs('#projectsWrap');
+        const filterTag = qs('#filterTag');
+        const tagsSet = new Set();
+        function renderProjects(filter = 'all') {
+            projectsWrap.innerHTML = '';
+            PROJECTS.filter(p => filter === 'all' || p.tags.includes(filter)).forEach(p => {
+                p.tags.forEach(t => tagsSet.add(t));
+                const card = document.createElement('div'); card.className = 'card';
+                card.innerHTML = `
+          <img loading="lazy" alt="${p.title}" src="${p.img}">
+          <div class="card-body">
+            <h3 style="margin:0">${p.title}</h3>
+            <p class="muted">${p.desc}</p>
+            <div class="tags">${p.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
+            <div style="display:flex;gap:8px;margin-top:12px">
+              <button class="btn primary open-project" data-id="${p.id}">Details</button>
+              <a class="btn ghost" href="${p.live}" target="_blank">Live</a>
+            </div>
+          </div>`;
+                projectsWrap.appendChild(card);
+            });
+            populateFilter();
+            attachProjectOpen();
+        }
+        function populateFilter() {
+            const current = filterTag.value;
+            const all = ['all', ...Array.from(tagsSet)];
+            filterTag.innerHTML = all.map(t => `<option value="${t}" ${t === current ? 'selected' : ''}>${t}</option>`).join('');
+        }
+        filterTag.addEventListener('change', () => renderProjects(filterTag.value));
+        renderProjects();
+
+        // Modal project details
+        const modal = qs('#modal');
+        const modalImg = qs('#modalImg');
+        const modalTitle = qs('#modalTitle');
+        const modalDesc = qs('#modalDesc');
+        const modalTags = qs('#modalTags');
+        const modalLive = qs('#modalLive');
+        const modalRepo = qs('#modalRepo');
+        function attachProjectOpen() {
+            qsa('.open-project').forEach(btn => btn.addEventListener('click', () => {
+                const id = Number(btn.dataset.id);
+                const p = PROJECTS.find(x => x.id === id);
+                if (!p) return;
+                modalImg.src = p.img; modalTitle.textContent = p.title; modalDesc.textContent = p.desc;
+                modalTags.innerHTML = p.tags.map(t => `<span class="tag">${t}</span>`).join('');
+                modalLive.href = p.live || '#'; modalRepo.href = p.repo || '#';
+                modal.classList.add('show');
+            }))
+        }
+        qs('#closeModal').addEventListener('click', () => modal.classList.remove('show'));
+        modal.addEventListener('click', e => { if (e.target === modal) modal.classList.remove('show') });
+
+        // Animated counters
+        const counters = qsa('[data-count]');
+        const counterObserver = new IntersectionObserver(entries => { entries.forEach(entry => { if (entry.isIntersecting) { const el = entry.target; const target = Number(el.dataset.count); let val = 0; const ms = 1200; const step = Math.ceil(target / (ms / 40)); const timer = setInterval(() => { val += step; if (val >= target) { el.textContent = target; clearInterval(timer) } else el.textContent = val; }, 40) } }) }, { threshold: 0.6 });
+        counters.forEach(c => counterObserver.observe(c));
+
+        // Download resume (generates a simple text file)
+        qs('#downloadResume').addEventListener('click', () => {
+            const resumeText = `Nitin Garhwal\nWeb Developer\nEmail:nitingarhwal184@gmail.com\n\nSummary:\nMotivated BCA student with experience in web development using HTML, CSS and JS.\n\nSkills:\n${SKILLS.map(s => s.name + ': ' + s.level + '%').join('\n')}\n\nProjects:\n${PROJECTS.map(p => `- ${p.title}: ${p.desc}`).join('\n')}`;
+            const blob = new Blob([resumeText], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a'); a.href = url; a.download = 'YourName-Resume.txt'; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+        });
+
+        // lazy load avatar as demonstration
+        setTimeout(() => qs('#avatar').style.backgroundImage = "url('https://via.placeholder.com/420x420?text=Your+Photo')", 400);
+
+        // Accessibility: handle Escape to close modal
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') modal.classList.remove('show') });
+
+        // small enhancement: update active nav on scroll
+        const sections = ['home', 'about', 'skills', 'projects', 'contact'].map(id => document.getElementById(id));
+        window.addEventListener('scroll', () => {
+            const fromTop = window.scrollY + 120;
+            let current = 'home';
+            sections.forEach(s => { if (s.offsetTop <= fromTop) current = s.id });
+            setActive(current);
+        });
+
+    </script>
+</body>
+
+</html>
