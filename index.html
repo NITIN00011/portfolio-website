@@ -36,18 +36,8 @@
             font-family: Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
             background: var(--bg);
             color: var(--text);
-            -webkit-font-smoothing: antialiased
-        }
-
-        .avatar img {
-            width: 415px;
-            height: 415px;
-            border-radius: 2%;
-            /* makes it a circle */
-            object-fit: cover;
-            /* ensures image doesn’t stretch */
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-            /* optional shadow */
+            -webkit-font-smoothing: antialiased;
+            scroll-behavior: smooth;
         }
 
         /* NAV */
@@ -134,7 +124,9 @@
             border-radius: 10px;
             border: none;
             cursor: pointer;
-            font-weight: 600
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 14px;
         }
 
         .btn.primary {
@@ -148,15 +140,48 @@
             border: 1px solid rgba(255, 255, 255, 0.06)
         }
 
+        /* --- FIXED: MOBILE MENU STYLES --- */
         .menu-toggle {
-            display: none
+            display: none;
         }
+
+        /* This hides the "extra navbar" by default */
+        .menu-panel {
+            display: none; 
+            position: fixed;
+            top: 72px;
+            left: 0;
+            right: 0;
+            background: var(--card);
+            flex-direction: column;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            z-index: 79;
+        }
+
+        /* This shows it only when the JavaScript adds the 'show' class */
+        .menu-panel.show {
+            display: flex;
+        }
+
+        .menu-panel button {
+            background: none;
+            border: none;
+            color: var(--text);
+            padding: 15px 20px;
+            text-align: left;
+            font-size: 16px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            cursor: pointer;
+        }
+        /* -------------------------------- */
 
         /* HERO */
         header.hero {
             min-height: 80vh;
             display: flex;
-            align-items: center
+            align-items: center;
+            padding-top: 80px; /* added padding so nav doesn't cover content */
         }
 
         .hero-grid {
@@ -191,6 +216,9 @@
         .avatar img {
             width: 415px;
             height: 415px;
+            border-radius: 2%;
+            object-fit: cover;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
         }
 
 
@@ -270,7 +298,7 @@
         .card img {
             width: 100%;
             height: 180px;
-            object-fit: contain;
+            object-fit: cover; /* changed to cover for better look */
             background: #000;
         }
 
@@ -343,7 +371,8 @@
             border-radius: 8px;
             border: 1px solid rgba(255, 255, 255, 0.04);
             background: transparent;
-            color: var(--text)
+            color: var(--text);
+            margin-bottom: 10px; /* added spacing */
         }
 
         textarea {
@@ -364,8 +393,9 @@
             display: none;
             align-items: center;
             justify-content: center;
-            background: rgba(2, 6, 23, 0.6);
-            z-index: 200
+            background: rgba(2, 6, 23, 0.9); /* Darker background */
+            z-index: 200;
+            padding: 20px;
         }
 
         .modal.show {
@@ -373,100 +403,72 @@
         }
 
         .modal-card {
-            width: min(900px, 96%);
+            width: min(900px, 100%);
             background: var(--card);
             border-radius: 12px;
-            overflow: hidden
+            overflow: hidden;
+            display: flex;
+            flex-direction: column; /* better mobile support */
         }
 
-        .modal-card .content {
-            display: flex;
-            gap: 12px
+        @media(min-width: 768px) {
+            .modal-card {
+                flex-direction: row;
+            }
+            .modal-card img {
+                width: 40%;
+                height: auto;
+            }
         }
 
         .modal-card img {
-            width: 40%;
-            height: 100%;
+            width: 100%;
+            height: 200px;
             object-fit: cover
         }
 
         .modal-body {
-            padding: 18px
+            padding: 24px;
+            flex: 1;
         }
 
-        /* ===== FULL RESPONSIVE FIX ===== */
-
-        img {
-            max-width: 100%;
-            height: auto;
-        }
-
-        .hero-grid,
-        .contact-grid,
-        .skills-grid {
-            width: 100%;
-        }
-
+        /* RESPONSIVE */
         @media (max-width: 992px) {
-
-            nav {
-                position: static;
-            }
-
-            header.hero {
-                min-height: auto;
-                padding-top: 40px;
-            }
-
             .hero-grid {
                 grid-template-columns: 1fr;
+                text-align: center;
             }
-
-            .hero-title {
-                font-size: 28px;
-            }
-
-            .avatar {
-                width: 100%;
-                height: auto;
-            }
-
-            .avatar img {
-                max-width: 280px;
-            }
-
-            section {
-                padding: 60px 0;
-            }
-        }
-
-        @media (max-width: 600px) {
-
-            .container {
-                flex-direction: column;
-                gap: 12px;
-            }
-
             .hero-cta {
-                flex-direction: column;
+                justify-content: center;
             }
-
-            .btn {
-                width: 100%;
-            }
-
-            .projects-wrap {
-                grid-template-columns: 1fr;
-            }
-
-            .skills-grid {
-                grid-template-columns: 1fr;
-            }
-
             .contact-grid {
                 grid-template-columns: 1fr;
             }
+            .avatar img {
+                width: 280px;
+                height: 280px;
+            }
+            
+            /* Show hamburger on mobile */
+            .menu-toggle {
+                display: block;
+            }
+            
+            /* Hide desktop links on mobile */
+            .nav-links {
+                display: none;
+            }
         }
+
+        @media (max-width: 480px) {
+            .container {
+                flex-direction: row; /* keep nav items in row */
+            }
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
     </style>
 </head>
 
@@ -477,7 +479,7 @@
                 <div class="logo"><span>NG</span></div>
                 <div>
                     <h1>Nitin Garhwal</h1>
-                    <div class="muted">BCA Student • Web Developer</div>
+                    <div class="muted" style="font-size: 12px;">BCA Student • Web Developer</div>
                 </div>
             </div>
 
@@ -490,8 +492,8 @@
             </div>
 
             <div class="actions">
-                <button class="btn ghost" id="themeToggle" aria-pressed="false">🌙</button>
-                <button class="btn primary" id="downloadResume">Download Resume</button>
+                <button class="btn ghost" id="themeToggle" aria-pressed="false" style="padding: 6px 10px;">🌙</button>
+                <button class="btn primary" id="downloadResume">Resume</button>
                 <button class="menu-toggle btn ghost" id="openMenu">☰</button>
             </div>
 
@@ -518,15 +520,12 @@
                         <button class="btn primary" data-section="projects">View Projects</button>
                         <button class="btn ghost" data-section="contact">Hire Me</button>
                     </div>
-
-
                 </div>
                 <div style="display:flex;flex-direction:column;justify-content:center;align-items:center">
                     <div class="avatar" id="avatar" alt="Portrait image">
-                        <img src="img/image.png" alt="Nitin Garhwal" width="420px" height="420px">
+                        <img src="img/image.png" alt="Nitin Garhwal">
                     </div>
-                    <div style="margin-top:12px;color:var(--muted);font-size:14px">Based in Bikaner, Rajasthan • Open to
-                        opportunities</div>
+                    <div style="margin-top:12px;color:var(--muted);font-size:14px;text-align:center">Based in Bikaner, Rajasthan • Open to opportunities</div>
                 </div>
             </div>
         </header>
@@ -534,13 +533,15 @@
         <section id="about">
             <div class="section-head">
                 <h2>About Me</h2>
-                <p>Short intro about your education, interests, and what you bring to projects.</p>
+                <p>A little background about my journey</p>
             </div>
             <div class="container" style="max-width:900px">
-                <div class="card" style="padding:18px;background:transparent;border-radius:12px">
-                    <p class="muted">I'm a BCA 2nd Year student specialized in web development. I enjoy clean UI,
-                        writing robust code and learning new technologies. I work with HTML, CSS, JavaScript and C/C++
-                        for system-level problems.</p>
+                <div class="card" style="padding:24px;background:var(--card);border-radius:12px;text-align:center">
+                    <p class="muted" style="font-size:1.1rem;line-height:1.6">
+                        I'm a BCA 2nd Year student specialized in web development. I enjoy creating clean UI,
+                        writing robust code, and learning new technologies. I work with HTML, CSS, JavaScript, 
+                        and C/C++ for system-level problems.
+                    </p>
                 </div>
             </div>
         </section>
@@ -560,7 +561,7 @@
             </div>
             <div style="text-align:center;margin-bottom:12px">
                 <label class="muted">Filter:</label>
-                <select id="filterTag">
+                <select id="filterTag" style="padding:5px;border-radius:4px;background:var(--card);color:var(--text);border:1px solid var(--muted)">
                     <option value="all">All</option>
                 </select>
             </div>
@@ -574,11 +575,12 @@
             </div>
             <div class="contact-grid">
                 <div>
-                    <div class="card" style="padding:18px">
+                    <div class="card" style="padding:24px; height:100%">
                         <h3 style="margin-top:0">Contact Info</h3>
                         <p class="muted">Email: nitingarhwal184@gmail.com</p>
                         <p class="muted">Location: Sikar, Rajasthan, India</p>
-
+                        <hr style="border-color:rgba(255,255,255,0.1)">
+                        <p class="muted">Feel free to reach out for collaborations or just a friendly hello!</p>
                     </div>
                 </div>
 
@@ -591,7 +593,7 @@
                     <textarea name="message" required placeholder="How can I help?"></textarea>
                     <div style="display:flex;gap:10px;margin-top:10px">
                         <button class="btn primary" type="submit">Send Message</button>
-                        <button class="btn ghost" type="button" id="clearMessages">Clear Saved</button>
+                        <button class="btn ghost" type="button" id="clearMessages">Clear</button>
                     </div>
                     <p class="muted" id="formStatus" style="margin-top:10px"></p>
                 </form>
@@ -600,8 +602,8 @@
 
     </main>
 
-    <footer style="background:#111; color:#fff; padding:2rem 1rem; text-align:center;">
-        <div class="container" style="max-width:1100px; margin:auto;">
+    <footer style="background:#020617; color:#fff; padding:2rem 1rem; text-align:center; margin-top:50px">
+        <div class="container" style="max-width:1100px; margin:auto; flex-direction: column;">
             <p style="margin-bottom:0.5rem;">
                 © <span id="year"></span> <strong>Nitin Garhwal</strong>. All rights reserved.
             </p>
@@ -612,45 +614,34 @@
             <div style="display:flex; justify-content:center; gap:1rem; margin-top:0.5rem;">
                 <a href=https://github.com/NITIN00011 target="_blank"
                     style="color:#fff; text-decoration:none;">GitHub</a> |
-                <a href=https://www.linkedin.com/in/nitin-garhwal-b171b1329?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app
-                    target="_blank" style="color:#fff; text-decoration:none;">LinkedIn</a> |
+                <a href=https://www.linkedin.com/in/nitin-garhwal-b171b1329 target="_blank" style="color:#fff; text-decoration:none;">LinkedIn</a> |
                 <a href="https://instagram.com/nitin__garhwal" target="_blank"
                     style="color:#fff; text-decoration:none;">Instagram</a>
             </div>
         </div>
     </footer>
 
-    <script>
-        // Auto year update
-        document.getElementById("year").textContent = new Date().getFullYear();
-    </script>
-
-
-    <!-- Modal -->
     <div class="modal" id="modal">
         <div class="modal-card" role="dialog" aria-modal="true">
-            <div class="content">
-                <img id="modalImg" src="img/port.png" alt="project image">
-                <div class="modal-body">
-                    <h3 id="modalTitle">Project Title</h3>
-                    <p id="modalDesc" class="muted">Project description</p>
-                    <div id="modalTags" class="tags"></div>
-                    <div style="margin-top:12px">
-                        <a id="modalLive" href="#" class="btn primary" target="_blank">Live</a>
-                        <a id="modalRepo" href="#" class="btn ghost" target="_blank">Repo</a>
-                        <button class="btn ghost" id="closeModal">Close</button>
-                    </div>
+            <img id="modalImg" src="" alt="project image">
+            <div class="modal-body">
+                <h3 id="modalTitle" style="margin-top:0">Project Title</h3>
+                <p id="modalDesc" class="muted">Project description</p>
+                <div id="modalTags" class="tags" style="margin-bottom:20px"></div>
+                <div>
+                    <a id="modalLive" href="#" class="btn primary" target="_blank">Live Demo</a>
+                    <a id="modalRepo" href="#" class="btn ghost" target="_blank">Repository</a>
+                    <button class="btn ghost" id="closeModal">Close</button>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // --- Data (replace images with assets/your-image.jpg) ---
+        // --- Data ---
         const PROJECTS = [
-            { id: 1, title: 'Responsive Portfolio Website', img: 'img/port.png', desc: 'A polished responsive portfolio built with HTML/CSS/JS.', tags: ['html', 'css', 'javascript'], live: '#', repo: '#' },
-
-            { id: 3, title: 'Weather app', img: 'img/weather.png', desc: 'Real time Weather App using JavaScript', tags: ['Html', 'Css', 'JavaScript'], live: 'https://nitin00011.github.io/weather-app/', repo: 'https://github.com/NITIN00011/weather-app.git' }
+            { id: 1, title: 'Responsive Portfolio Website', img: 'img/port.png', desc: 'A polished responsive portfolio built with HTML/CSS/JS.', tags: ['HTML', 'CSS', 'JavaScript'], live: '#', repo: '#' },
+            { id: 3, title: 'Weather App', img: 'img/weather.png', desc: 'Real time Weather App using JavaScript', tags: ['HTML', 'CSS', 'JavaScript'], live: 'https://nitin00011.github.io/weather-app/', repo: 'https://github.com/NITIN00011/weather-app.git' }
         ];
 
         const SKILLS = [
@@ -663,23 +654,53 @@
 
         // NAV + smooth scroll + active link
         const navButtons = qsa('nav .nav-links button');
+        const menuPanel = qs('#menuPanel');
+        
         function setActive(section) {
             navButtons.forEach(b => b.classList.toggle('active', b.dataset.section === section));
-            // also close mobile panel
-            menuPanel.classList.remove('show');
+            // Close mobile menu if open
+            if(menuPanel) menuPanel.classList.remove('show');
         }
-        navButtons.forEach(btn => btn.addEventListener('click', () => { document.getElementById(btn.dataset.section).scrollIntoView({ behavior: 'smooth' }); setActive(btn.dataset.section) }));
 
-        // menu panel
+        // Desktop Nav Clicks
+        navButtons.forEach(btn => btn.addEventListener('click', () => { 
+            const el = document.getElementById(btn.dataset.section);
+            if(el) {
+                el.scrollIntoView({ behavior: 'smooth' }); 
+                setActive(btn.dataset.section);
+            }
+        }));
+
+        // Mobile Menu Logic
         const openMenu = qs('#openMenu');
-        const menuPanel = qs('#menuPanel');
-        menuPanel.querySelectorAll('button').forEach(b => b.addEventListener('click', () => { document.getElementById(b.dataset.section).scrollIntoView({ behavior: 'smooth' }); menuPanel.classList.remove('show') }));
-        openMenu.addEventListener('click', () => menuPanel.classList.toggle('show'));
+        if(menuPanel) {
+            menuPanel.querySelectorAll('button').forEach(b => b.addEventListener('click', () => { 
+                const el = document.getElementById(b.dataset.section);
+                if(el) {
+                    el.scrollIntoView({ behavior: 'smooth' }); 
+                    menuPanel.classList.remove('show');
+                }
+            }));
+        }
+        
+        if(openMenu && menuPanel) {
+            openMenu.addEventListener('click', () => menuPanel.classList.toggle('show'));
+        }
 
-        // hero CTA
-        qsa('[data-section]').forEach(el => el.addEventListener('click', (e) => { const s = e.currentTarget.dataset.section; if (s) { document.getElementById(s).scrollIntoView({ behavior: 'smooth' }); setActive(s) } }));
+        // Hero CTA Clicks
+        qsa('[data-section]').forEach(el => el.addEventListener('click', (e) => { 
+            // Only trigger if it's not inside nav/menu (avoid double binding)
+            if(!el.closest('nav') && !el.closest('.menu-panel')) {
+                const s = e.currentTarget.dataset.section; 
+                const target = document.getElementById(s);
+                if (target) { 
+                    target.scrollIntoView({ behavior: 'smooth' }); 
+                    setActive(s); 
+                } 
+            }
+        }));
 
-        // theme toggle
+        // Theme Toggle
         const themeToggle = qs('#themeToggle');
         themeToggle.addEventListener('click', () => {
             const root = document.documentElement;
@@ -689,63 +710,77 @@
             themeToggle.textContent = next === 'dark' ? '🌙' : '☀️';
         });
 
-        // year
+        // Year Update
         qs('#year').textContent = new Date().getFullYear();
 
-        // render skills
+        // Render Skills
         const skillsGrid = qs('#skillsGrid');
-        SKILLS.forEach(s => {
-            const node = document.createElement('div'); node.className = 'skill';
-            node.innerHTML = `<h4>${s.name} <small style="float:right;color:var(--muted)">${s.level}%</small></h4><div class="progress"><i style="width:0%"></i></div>`;
-            skillsGrid.appendChild(node);
-        });
-
-        // animate skill bars when visible
-        const observer = new IntersectionObserver(entries => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.querySelectorAll('.progress > i').forEach((bar, i) => {
-                        const level = SKILLS[i]?.level || 60; bar.style.width = level + '%';
-                    });
-                }
+        if(skillsGrid) {
+            SKILLS.forEach(s => {
+                const node = document.createElement('div'); node.className = 'skill';
+                node.innerHTML = `<h4>${s.name} <small style="float:right;color:var(--muted)">${s.level}%</small></h4><div class="progress"><i style="width:0%"></i></div>`;
+                skillsGrid.appendChild(node);
             });
-        }, { threshold: 0.25 });
-        observer.observe(skillsGrid);
+            
+            // Animation
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.querySelectorAll('.progress > i').forEach((bar, i) => {
+                            const level = SKILLS[i]?.level || 60; bar.style.width = level + '%';
+                        });
+                    }
+                });
+            }, { threshold: 0.25 });
+            observer.observe(skillsGrid);
+        }
 
-        // render projects and populate filter
+        // Render Projects
         const projectsWrap = qs('#projectsWrap');
         const filterTag = qs('#filterTag');
         const tagsSet = new Set();
+        
         function renderProjects(filter = 'all') {
+            if(!projectsWrap) return;
             projectsWrap.innerHTML = '';
+            
             PROJECTS.filter(p => filter === 'all' || p.tags.includes(filter)).forEach(p => {
                 p.tags.forEach(t => tagsSet.add(t));
                 const card = document.createElement('div'); card.className = 'card';
                 card.innerHTML = `
-          <img loading="lazy" alt="${p.title}" src="${p.img}">
-          <div class="card-body">
-            <h3 style="margin:0">${p.title}</h3>
-            <p class="muted">${p.desc}</p>
-            <div class="tags">${p.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
-            <div style="display:flex;gap:8px;margin-top:12px">
-              <button class="btn primary open-project" data-id="${p.id}">Details</button>
-              <a class="btn ghost" href="${p.live}" target="_blank">Live</a>
-            </div>
-          </div>`;
+                  <img loading="lazy" alt="${p.title}" src="${p.img}">
+                  <div class="card-body">
+                    <h3 style="margin:0; font-size:18px">${p.title}</h3>
+                    <p class="muted" style="font-size:14px">${p.desc}</p>
+                    <div class="tags">${p.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
+                    <div style="display:flex;gap:8px;margin-top:12px">
+                      <button class="btn primary open-project" data-id="${p.id}">Details</button>
+                      <a class="btn ghost" href="${p.live}" target="_blank">Live</a>
+                    </div>
+                  </div>`;
                 projectsWrap.appendChild(card);
             });
-            populateFilter();
+            
+            // Re-attach listeners for new buttons
             attachProjectOpen();
         }
+
         function populateFilter() {
+            if(!filterTag) return;
             const current = filterTag.value;
             const all = ['all', ...Array.from(tagsSet)];
             filterTag.innerHTML = all.map(t => `<option value="${t}" ${t === current ? 'selected' : ''}>${t}</option>`).join('');
         }
-        filterTag.addEventListener('change', () => renderProjects(filterTag.value));
-        renderProjects();
 
-        // Modal project details
+        // Only populate filter on first load
+        renderProjects();
+        populateFilter();
+        
+        if(filterTag) {
+            filterTag.addEventListener('change', () => renderProjects(filterTag.value));
+        }
+
+        // Modal Logic
         const modal = qs('#modal');
         const modalImg = qs('#modalImg');
         const modalTitle = qs('#modalTitle');
@@ -753,49 +788,54 @@
         const modalTags = qs('#modalTags');
         const modalLive = qs('#modalLive');
         const modalRepo = qs('#modalRepo');
+
         function attachProjectOpen() {
             qsa('.open-project').forEach(btn => btn.addEventListener('click', () => {
                 const id = Number(btn.dataset.id);
                 const p = PROJECTS.find(x => x.id === id);
                 if (!p) return;
-                modalImg.src = p.img; modalTitle.textContent = p.title; modalDesc.textContent = p.desc;
+                
+                modalImg.src = p.img; 
+                modalTitle.textContent = p.title; 
+                modalDesc.textContent = p.desc;
                 modalTags.innerHTML = p.tags.map(t => `<span class="tag">${t}</span>`).join('');
-                modalLive.href = p.live || '#'; modalRepo.href = p.repo || '#';
+                modalLive.href = p.live || '#'; 
+                modalRepo.href = p.repo || '#';
+                
                 modal.classList.add('show');
-            }))
+            }));
         }
+
         qs('#closeModal').addEventListener('click', () => modal.classList.remove('show'));
         modal.addEventListener('click', e => { if (e.target === modal) modal.classList.remove('show') });
-
-        // Animated counters
-        const counters = qsa('[data-count]');
-        const counterObserver = new IntersectionObserver(entries => { entries.forEach(entry => { if (entry.isIntersecting) { const el = entry.target; const target = Number(el.dataset.count); let val = 0; const ms = 1200; const step = Math.ceil(target / (ms / 40)); const timer = setInterval(() => { val += step; if (val >= target) { el.textContent = target; clearInterval(timer) } else el.textContent = val; }, 40) } }) }, { threshold: 0.6 });
-        counters.forEach(c => counterObserver.observe(c));
-
-        // Download resume (generates a simple text file)
-        qs('#downloadResume').addEventListener('click', () => {
-            const resumeText = `Nitin Garhwal\nWeb Developer\nEmail:nitingarhwal184@gmail.com\n\nSummary:\nMotivated BCA student with experience in web development using HTML, CSS and JS.\n\nSkills:\n${SKILLS.map(s => s.name + ': ' + s.level + '%').join('\n')}\n\nProjects:\n${PROJECTS.map(p => `- ${p.title}: ${p.desc}`).join('\n')}`;
-            const blob = new Blob([resumeText], { type: 'text/plain' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a'); a.href = url; a.download = 'YourName-Resume.txt'; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
-        });
-
-        // lazy load avatar as demonstration
-        setTimeout(() => qs('#avatar').style.backgroundImage = "url('https://via.placeholder.com/420x420?text=Your+Photo')", 400);
-
-        // Accessibility: handle Escape to close modal
         document.addEventListener('keydown', e => { if (e.key === 'Escape') modal.classList.remove('show') });
 
-        // small enhancement: update active nav on scroll
+        // Resume Download
+        qs('#downloadResume').addEventListener('click', () => {
+            const resumeText = `Nitin Garhwal\nWeb Developer\nEmail:nitingarhwal184@gmail.com\n\nSummary:\nMotivated BCA student with experience in web development.\n\nSkills:\n${SKILLS.map(s => s.name).join(', ')}\n\nProjects:\n${PROJECTS.map(p => `- ${p.title}`).join('\n')}`;
+            const blob = new Blob([resumeText], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a'); a.href = url; a.download = 'Nitin-Garhwal-Resume.txt'; 
+            document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+        });
+
+        // Placeholder for missing avatar
+        const avImg = qs('#avatar img');
+        avImg.onerror = function() {
+           this.src = "https://via.placeholder.com/420x420?text=Nitin+G";
+        };
+
+        // Scroll Spy for Nav
         const sections = ['home', 'about', 'skills', 'projects', 'contact'].map(id => document.getElementById(id));
         window.addEventListener('scroll', () => {
-            const fromTop = window.scrollY + 120;
-            let current = 'home';
-            sections.forEach(s => { if (s.offsetTop <= fromTop) current = s.id });
-            setActive(current);
+            const fromTop = window.scrollY + 150;
+            let current = '';
+            sections.forEach(s => { 
+                if (s && s.offsetTop <= fromTop) current = s.id 
+            });
+            if(current) setActive(current);
         });
 
     </script>
 </body>
-
 </html>
