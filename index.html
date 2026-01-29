@@ -128,12 +128,6 @@
             text-decoration: none;
             font-size: 14px;
         }
-
-        .btn.primary {
-            background: var(--accent);
-            color: white
-        }
-
         .btn.ghost {
             background: transparent;
             color: var(--text);
@@ -506,7 +500,7 @@
 
             <div class="actions">
                 <button class="btn ghost" id="themeToggle" aria-pressed="false" style="padding: 6px 10px;">🌙</button>
-                <button class="btn primary" id="downloadResume">Resume</button>
+                
                 <button class="menu-toggle btn ghost" id="openMenu">☰</button>
             </div>
 
@@ -538,7 +532,7 @@
                     <div class="avatar" id="avatar" alt="Portrait image">
                         <img src="img/image.png" alt="Nitin Garhwal">
                     </div>
-                    <div style="margin-top:12px;color:var(--muted);font-size:14px;text-align:center">Based in Bikaner,
+                    <div style="margin-top:12px;color:var(--muted);font-size:14px;text-align:center">Based in Sikar,
                         Rajasthan • Open to opportunities</div>
                 </div>
             </div>
@@ -572,13 +566,6 @@
             <div class="section-head">
                 <h2>Projects</h2>
                 <p>Selected projects — click to open details</p>
-            </div>
-            <div style="text-align:center;margin-bottom:12px">
-                <label class="muted">Filter:</label>
-                <select id="filterTag"
-                    style="padding:5px;border-radius:4px;background:var(--card);color:var(--text);border:1px solid var(--muted)">
-                    <option value="all">All</option>
-                </select>
             </div>
             <div class="projects-wrap" id="projectsWrap"></div>
         </section>
@@ -661,7 +648,7 @@
         ];
 
         const SKILLS = [
-            { name: 'HTML', level: 90 }, { name: 'CSS', level: 88 }, { name: 'JavaScript', level: 50 }, { name: 'C Programming', level: 60 }, { name: 'C++', level: 50 }, { name: 'Data Structures', level: 50 }, { name: 'Communication', level: 85 }
+            { name: 'HTML', level: 90 }, { name: 'CSS', level: 88 }, { name: 'JavaScript', level: 50 }, { name: 'C Programming', level: 50 }, { name: 'C++', level: 40 }, { name: 'Data Structures', level: 40 }, { name: 'Communication', level: 85 }
         ];
 
         // --- Helpers ---
@@ -752,49 +739,39 @@
         }
 
         // Render Projects
-        const projectsWrap = qs('#projectsWrap');
-        const filterTag = qs('#filterTag');
-        const tagsSet = new Set();
 
-        function renderProjects(filter = 'all') {
+        function renderProjects() {
             if (!projectsWrap) return;
             projectsWrap.innerHTML = '';
 
-            PROJECTS.filter(p => filter === 'all' || p.tags.includes(filter)).forEach(p => {
-                p.tags.forEach(t => tagsSet.add(t));
-                const card = document.createElement('div'); card.className = 'card';
+            PROJECTS.forEach(p => {
+                const card = document.createElement('div');
+                card.className = 'card';
+
                 card.innerHTML = `
-                  <img loading="lazy" alt="${p.title}" src="${p.img}">
-                  <div class="card-body">
-                    <h3 style="margin:0; font-size:18px">${p.title}</h3>
-                    <p class="muted" style="font-size:14px">${p.desc}</p>
-                    <div class="tags">${p.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
-                    <div style="display:flex;gap:8px;margin-top:12px">
-                      <button class="btn primary open-project" data-id="${p.id}">Details</button>
-                      <a class="btn ghost" href="${p.live}" target="_blank">Live</a>
-                    </div>
-                  </div>`;
+          <img loading="lazy" alt="${p.title}" src="${p.img}">
+          <div class="card-body">
+            <h3 style="margin:0; font-size:18px">${p.title}</h3>
+            <p class="muted" style="font-size:14px">${p.desc}</p>
+            <div class="tags">
+              ${p.tags.map(t => `<span class="tag">${t}</span>`).join('')}
+            </div>
+            <div style="display:flex;gap:8px;margin-top:12px">
+              <button class="btn primary open-project" data-id="${p.id}">Details</button>
+              <a class="btn ghost" href="${p.live}" target="_blank">Live</a>
+            </div>
+          </div>
+        `;
+
                 projectsWrap.appendChild(card);
             });
 
-            // Re-attach listeners for new buttons
             attachProjectOpen();
         }
 
-        function populateFilter() {
-            if (!filterTag) return;
-            const current = filterTag.value;
-            const all = ['all', ...Array.from(tagsSet)];
-            filterTag.innerHTML = all.map(t => `<option value="${t}" ${t === current ? 'selected' : ''}>${t}</option>`).join('');
-        }
-
-        // Only populate filter on first load
         renderProjects();
-        populateFilter();
 
-        if (filterTag) {
-            filterTag.addEventListener('change', () => renderProjects(filterTag.value));
-        }
+
 
         // Modal Logic
         const modal = qs('#modal');
@@ -825,21 +802,6 @@
         qs('#closeModal').addEventListener('click', () => modal.classList.remove('show'));
         modal.addEventListener('click', e => { if (e.target === modal) modal.classList.remove('show') });
         document.addEventListener('keydown', e => { if (e.key === 'Escape') modal.classList.remove('show') });
-
-        // Resume Download
-        qs('#downloadResume').addEventListener('click', () => {
-            const resumeText = `Nitin Garhwal\nWeb Developer\nEmail:nitingarhwal184@gmail.com\n\nSummary:\nMotivated BCA student with experience in web development.\n\nSkills:\n${SKILLS.map(s => s.name).join(', ')}\n\nProjects:\n${PROJECTS.map(p => `- ${p.title}`).join('\n')}`;
-            const blob = new Blob([resumeText], { type: 'text/plain' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a'); a.href = url; a.download = 'Nitin-Garhwal-Resume.txt';
-            document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
-        });
-
-        // Placeholder for missing avatar
-        const avImg = qs('#avatar img');
-        avImg.onerror = function () {
-            this.src = "https://via.placeholder.com/420x420?text=Nitin+G";
-        };
 
         // Scroll Spy for Nav
         const sections = ['home', 'about', 'skills', 'projects', 'contact'].map(id => document.getElementById(id));
